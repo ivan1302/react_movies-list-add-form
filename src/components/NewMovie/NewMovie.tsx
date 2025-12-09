@@ -12,26 +12,31 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [infoImageURL, setInfoImageURL] = useState('');
   const [infoImdbURL, setInfoImdbURL] = useState('');
   const [infoImdbID, setInfoImdbID] = useState('');
-  const [count] = useState(() => Math.random().toFixed(16).slice(2));
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfoTitle(e.target.value);
+  const [formKey, setFormKey] = useState(() =>
+    Math.random().toFixed(16).slice(2),
+  );
+
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfoTitle(event.target.value);
   };
 
-  const handleChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfoDescription(e.target.value);
+  const handleChangeDescription = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setInfoDescription(event.target.value);
   };
 
-  const handleChangeImageURL = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfoImageURL(e.target.value);
+  const handleChangeImageURL = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfoImageURL(event.target.value);
   };
 
-  const handleChangeImdbURL = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfoImdbURL(e.target.value);
+  const handleChangeImdbURL = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfoImdbURL(event.target.value);
   };
 
-  const handleChangeImdbID = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfoImdbID(e.target.value);
+  const handleChangeImdbID = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfoImdbID(event.target.value);
   };
 
   const possibilityToAdd =
@@ -40,8 +45,18 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     infoImdbURL.trim() !== '' &&
     infoImdbID.trim() !== '';
 
-  const handleAddMovie = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const resetForm = () => {
+    setInfoTitle('');
+    setInfoDescription('');
+    setInfoImageURL('');
+    setInfoImdbURL('');
+    setInfoImdbID('');
+
+    setFormKey(Math.random().toFixed(16).slice(2));
+  };
+
+  const handleAddMovie = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const newMovie: Movie = {
       title: infoTitle,
@@ -52,10 +67,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     };
 
     onAdd(newMovie);
+
+    resetForm();
   };
 
   return (
-    <form className="NewMovie" key={count} onSubmit={handleAddMovie}>
+    <form className="NewMovie" key={formKey} onSubmit={handleAddMovie}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
